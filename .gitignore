@@ -45,4 +45,4 @@ htmlcov/
 site/
 
 # Weasyprint font cache
-fontconfig/
+fontconfig/logs/ 
