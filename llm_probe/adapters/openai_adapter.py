@@ -13,8 +13,8 @@ class OpenAIAdapter(BaseAdapter):
 
     def __init__(self, model: str | None = None, timeout: int | None = None) -> None:
         super().__init__(
-            model=model or settings.openai_default_model,
-            timeout=timeout or settings.request_timeout,
+            model=model or settings.default_model,
+            timeout=timeout or settings.request_timeout_seconds,
         )
         self._client = openai.OpenAI(
             api_key=settings.openai_api_key,
@@ -30,16 +30,18 @@ class OpenAIAdapter(BaseAdapter):
                 messages=[{"role": "user", "content": payload.text}],
                 max_tokens=512,
             )
-            elapsed = round(time.monotonic() - start, 3)
+            elapsed_ms = round((time.monotonic() - start) * 1000)
             raw_response = response.choices[0].message.content or ""
             return Result(
                 payload_id=payload.id,
-                category=payload.category,
-                model=self.model,
+                owasp_category=payload.owasp_category,
                 provider="openai",
-                prompt=payload.text,
-                raw_response=raw_response,
-                latency_seconds=elapsed,
+                model=self.model,
+                prompt_text=payload.text,
+                response_text=raw_response,
+                score=0.0,
+                passed=False,
+                latency_ms=elapsed_ms,
             )
         except openai.OpenAIError as exc:
             raise AdapterError(f"OpenAI API error: {exc}") from exc

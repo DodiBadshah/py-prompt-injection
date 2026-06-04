@@ -13,8 +13,8 @@ class AnthropicAdapter(BaseAdapter):
 
     def __init__(self, model: str | None = None, timeout: int | None = None) -> None:
         super().__init__(
-            model=model or settings.anthropic_default_model,
-            timeout=timeout or settings.request_timeout,
+            model=model or settings.default_model,
+            timeout=timeout or settings.request_timeout_seconds,
         )
         self._client = anthropic.Anthropic(
             api_key=settings.anthropic_api_key,
@@ -30,16 +30,18 @@ class AnthropicAdapter(BaseAdapter):
                 max_tokens=512,
                 messages=[{"role": "user", "content": payload.text}],
             )
-            elapsed = round(time.monotonic() - start, 3)
+            elapsed_ms = round((time.monotonic() - start) * 1000)
             raw_response = response.content[0].text if response.content else ""
             return Result(
                 payload_id=payload.id,
-                category=payload.category,
-                model=self.model,
+                owasp_category=payload.owasp_category,
                 provider="anthropic",
-                prompt=payload.text,
-                raw_response=raw_response,
-                latency_seconds=elapsed,
+                model=self.model,
+                prompt_text=payload.text,
+                response_text=raw_response,
+                score=0.0,
+                passed=False,
+                latency_ms=elapsed_ms,
             )
         except anthropic.APIError as exc:
             raise AdapterError(f"Anthropic API error: {exc}") from exc

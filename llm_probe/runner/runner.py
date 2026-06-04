@@ -43,18 +43,13 @@ class Runner:
                 logger.info(f"Probing | id={payload.id} | category={payload.category}")
 
                 try:
-                    raw_response = self.adapter.send(payload)
+                    result = self.adapter.send(payload)
                 except AdapterError as e:
                     logger.error(f"Adapter error for {payload.id}: {e}")
                     continue
 
                 try:
-                    partial_result = Result(
-                        payload_id=payload.id,
-                        category=payload.category,
-                        response_text=raw_response,
-                    )
-                    result = score(partial_result, payload)
+                    result = score(result, payload)
                 except ScoringError as e:
                     logger.error(f"Scoring error for {payload.id}: {e}")
                     continue
