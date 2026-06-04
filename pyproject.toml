@@ -40,7 +40,7 @@ dev = [
 ]
 
 [project.scripts]
-llm-probe = "llm_probe.cli.main:app"
+llm-probe = "llm_probe.cli.main:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["llm_probe"]
