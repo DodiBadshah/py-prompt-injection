@@ -28,7 +28,7 @@ class AnthropicAdapter(BaseAdapter):
             response = self._client.messages.create(
                 model=self.model,
                 max_tokens=512,
-                messages=[{"role": "user", "content": payload.text}],
+                messages=[{"role": "user", "content": payload.prompt_text}],
             )
             elapsed_ms = round((time.monotonic() - start) * 1000)
             raw_response = response.content[0].text if response.content else ""
@@ -37,7 +37,7 @@ class AnthropicAdapter(BaseAdapter):
                 owasp_category=payload.owasp_category,
                 provider="anthropic",
                 model=self.model,
-                prompt_text=payload.text,
+                prompt_text=payload.prompt_text,
                 response_text=raw_response,
                 score=0.0,
                 passed=False,

@@ -61,7 +61,8 @@ def run(
     except ProbeConfigError as exc:
         logger.error(str(exc))
         raise typer.Exit(code=1)
-    runner = Runner(adapter=adapter)
+    runner = Runner(adapter_name="anthropic" if model.lower().startswith("claude") else "openai")
+    runner.adapter = adapter
     try:
         results = runner.run(payloads=payloads)
     except AdapterError as exc:
