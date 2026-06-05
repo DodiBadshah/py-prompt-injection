@@ -1,11 +1,9 @@
 from __future__ import annotations
-
+from datetime import datetime
 from pathlib import Path
 from typing import Optional
-
 import typer
 from loguru import logger
-
 from llm_probe.core.logging import setup_logging
 from llm_probe.core.exceptions import ProbeConfigError, AdapterError, PayloadLoadError
 from llm_probe.payloads.loader import load_all_payloads, load_by_category
@@ -21,7 +19,6 @@ app = typer.Typer(
     add_completion=False,
 )
 
-
 def _pick_adapter(model: str):
     m = model.lower()
     if m.startswith("gpt") or m.startswith("o1") or m.startswith("o3"):
@@ -30,17 +27,19 @@ def _pick_adapter(model: str):
         return AnthropicAdapter(model=model)
     raise ProbeConfigError(f"Cannot infer provider from model name {model!r}.")
 
-
 @app.command()
 def run(
     model: str = typer.Option(..., "--model", "-m", help="Model identifier."),
-    output: Path = typer.Option(Path("report.html"), "--output", "-o", help="HTML report path."),
+    output: Optional[Path] = typer.Option(None, "--output", "-o", help="HTML report path."),
     pdf: bool = typer.Option(False, "--pdf", help="Also export a PDF."),
     owasp: Optional[str] = typer.Option(None, "--owasp", help="Filter by OWASP category e.g. LLM01."),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Verbose logging."),
 ) -> None:
     """Run the prompt injection test suite against a model."""
     setup_logging(log_level="DEBUG" if verbose else "INFO")
+    if output is None:
+        timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+        output = Path(f"reports/report-{timestamp}-{model}.html")
     logger.info(f"Starting llm-probe against model: {model}")
     try:
         if owasp:
@@ -81,10 +80,8 @@ def run(
     if passed < total:
         raise typer.Exit(code=2)
 
-
 def main() -> None:
     app()
-
 
 if __name__ == "__main__":
     main()

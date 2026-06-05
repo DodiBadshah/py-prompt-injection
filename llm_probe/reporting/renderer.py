@@ -46,7 +46,7 @@ def render_html(results: List[Result], model: str, output_path: Path) -> Path:
         passed=passed,
         failed=failed,
         pass_rate=pass_rate,
-        generated_at=datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC"),
+        generated_at=datetime.datetime.now().strftime("%Y-%m-%d %H:%M (local)"),
         results=rows,
     )
 
