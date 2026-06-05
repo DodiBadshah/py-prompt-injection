@@ -43,4 +43,4 @@ jobs:
         run: pip install -e ".[dev]"
 
       - name: Deploy MkDocs to GitHub Pages
-        run: mkdocs gh-deploy --force
+        run: .venv/bin/mkdocs gh-deploy --force
