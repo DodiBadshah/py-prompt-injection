@@ -25,6 +25,7 @@ nav:
   - OWASP Mapping: owasp.md
   - CLI Reference: cli.md
   - Contributing: contributing.md
+  - Roadmap: roadmap.md
 
 markdown_extensions:
   - pymdownx.highlight:
