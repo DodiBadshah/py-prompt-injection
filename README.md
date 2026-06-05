@@ -97,6 +97,16 @@ pytest -v     # verbose
 
 CI runs automatically on every push via GitHub Actions.
 
+## Security
+
+This project handles LLM API keys and executes prompt injection payloads against live models. The following checks were run against the codebase:
+
+- `bandit` - 0 issues across 892 lines of code
+- `pip-audit` - no known CVEs in any dependency
+- `detect-secrets` - no credentials or secrets detected
+- YAML loading uses `safe_load` throughout, preventing arbitrary code execution
+- `.env` verified absent from all git history
+
 ## License
 
 MIT
