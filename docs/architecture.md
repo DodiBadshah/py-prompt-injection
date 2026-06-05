@@ -33,7 +33,17 @@ Two Pydantic models define the data contracts for the entire project:
 - `Result` - the outcome after firing a payload, including the raw response, score, and verdict
 
 ### Adapter Layer
-Wraps the OpenAI and Anthropic SDKs behind a common `BaseAdapter` interface. The runner does not know or care which LLM it is talking to.
+Wraps the OpenAI, Anthropic, and Ollama APIs behind a common `BaseAdapter` interface. The runner does not know or care which LLM it is talking to.
+
+Three adapters are available:
+
+| Adapter | Provider | API key required |
+|---|---|---|
+| AnthropicAdapter | Anthropic cloud | Yes |
+| OpenAIAdapter | OpenAI cloud | Yes |
+| OllamaAdapter | Local Ollama instance | No |
+
+The correct adapter is selected automatically based on the model name passed to the CLI.
 
 ### Scoring Engine
 Takes a raw model response and a Payload and returns a scored Result. Uses heuristics to detect refusals, compliance with injection instructions, and sensitive data leakage.
@@ -42,11 +52,11 @@ Takes a raw model response and a Payload and returns a scored Result. Uses heuri
 Orchestrates the full test run. Iterates over payloads, calls the adapter, routes responses to the scoring engine, logs results to MLflow, and collects the final list of Results.
 
 ### CLI
-Built with Typer. Exposes a single `run` command that accepts adapter, model, category filter, and output path arguments. Calls the runner and then the reporting layer.
+Built with Typer. Exposes a single command that accepts model, OWASP category filter, output path, and verbosity arguments. Auto-detects the correct adapter from the model name.
 
 ## Data flow
 
-    YAML catalogs -> Payload objects -> Runner -> Adapter -> LLM API
+    YAML catalogs -> Payload objects -> Runner -> Adapter -> LLM API (cloud or local)
                                            |
                                       Raw response
                                            |

@@ -9,6 +9,7 @@ from llm_probe.core.exceptions import ProbeConfigError, AdapterError, PayloadLoa
 from llm_probe.payloads.loader import load_all_payloads, load_by_category
 from llm_probe.adapters.openai_adapter import OpenAIAdapter
 from llm_probe.adapters.anthropic_adapter import AnthropicAdapter
+from llm_probe.adapters.ollama_adapter import OllamaAdapter
 from llm_probe.runner.runner import Runner
 from llm_probe.reporting.renderer import render_html
 from llm_probe.reporting.pdf_export import export_pdf
@@ -25,6 +26,8 @@ def _pick_adapter(model: str):
         return OpenAIAdapter(model=model)
     if m.startswith("claude"):
         return AnthropicAdapter(model=model)
+    if m.startswith("phi") or m.startswith("mistral") or m.startswith("llama") or m.startswith("gemma"):
+        return OllamaAdapter(model=model)
     raise ProbeConfigError(f"Cannot infer provider from model name {model!r}.")
 
 @app.command()
@@ -39,7 +42,8 @@ def run(
     setup_logging(log_level="DEBUG" if verbose else "INFO")
     if output is None:
         timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-        output = Path(f"reports/report-{timestamp}-{model}.html")
+        safe_model = model.replace(":", "-").replace("/", "-")
+        output = Path(f"reports/report-{timestamp}-{safe_model}.html")
     logger.info(f"Starting llm-probe against model: {model}")
     try:
         if owasp:
@@ -60,7 +64,7 @@ def run(
     except ProbeConfigError as exc:
         logger.error(str(exc))
         raise typer.Exit(code=1)
-    runner = Runner(adapter_name="anthropic" if model.lower().startswith("claude") else "openai")
+    runner = Runner(adapter_name="ollama" if isinstance(adapter, OllamaAdapter) else ("anthropic" if model.lower().startswith("claude") else "openai"))
     runner.adapter = adapter
     try:
         results = runner.run(payloads=payloads)

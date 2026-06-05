@@ -46,3 +46,12 @@ site/
 
 # Weasyprint font cache
 fontconfig/logs/ 
+
+# Runtime logs
+logs/
+
+# MLflow local database
+mlflow.db
+
+# Secrets baseline
+.secrets.baseline

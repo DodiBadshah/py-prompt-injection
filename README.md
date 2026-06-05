@@ -7,7 +7,7 @@
 
 A black-box prompt injection test harness for LLMs, mapped to the OWASP LLM Top 10.
 
-Fire structured attack payloads at any OpenAI or Anthropic model, score responses automatically, and generate HTML and PDF security reports.
+Fire structured attack payloads at any OpenAI, Anthropic, or local Ollama model, score responses automatically, and generate HTML and PDF security reports.
 
 **[Full documentation](https://dodibadshah.github.io/py-prompt-injection/)**
 
@@ -20,7 +20,7 @@ Prompt injection is the number one risk in the OWASP LLM Top 10 (LLM01). There i
 ```text
 payloads/catalog/*.yaml  -->  payloads/loader.py  -->  runner/runner.py
                                                           /          \
-                                               openai_adapter   anthropic_adapter
+                                    openai_adapter   anthropic_adapter   ollama_adapter
                                                           \          /
                                                        scoring/engine.py
                                                               |
@@ -31,12 +31,14 @@ payloads/catalog/*.yaml  -->  payloads/loader.py  -->  runner/runner.py
 
 | ID | Category | Payloads |
 |----|----------|----------|
-| LLM01 | Prompt Injection | 10 |
-| LLM02 | Insecure Output Handling | 5 |
-| LLM06 | Sensitive Information Disclosure | 5 |
-| LLM08 | Excessive Agency | 5 |
+| LLM01 | Prompt Injection | 6 |
+| LLM02 | Insecure Output Handling | 6 |
+| LLM06 | Sensitive Information Disclosure | 6 |
+| LLM08 | Excessive Agency | 6 |
 
 ## Quickstart
+
+### Cloud models
 
 Requirements: Python 3.11+, an OpenAI or Anthropic API key.
 
@@ -48,34 +50,52 @@ pip install -e ".[dev]"
 cp .env.example .env
 ```
 
-Run all payloads against GPT-4o-mini:
+Run all payloads against Claude Haiku:
 
 ```bash
-python -m llm_probe run --adapter openai --model gpt-4o-mini
+.venv\Scripts\python.exe -m llm_probe.cli.main --model claude-haiku-4-5
 ```
 
 Run a single OWASP category:
 
 ```bash
-python -m llm_probe run --adapter anthropic --model claude-3-haiku-20240307 --category LLM01
+.venv\Scripts\python.exe -m llm_probe.cli.main --model claude-haiku-4-5 --owasp LLM01
 ```
 
-Output: HTML and PDF reports written to `reports/`.
+### Local models via Ollama
+
+No API key required. Runs entirely on your machine.
+
+```bash
+# Install Ollama from https://ollama.com
+ollama pull phi3:mini
+ollama pull mistral:7b
+```
+
+Run the full suite against a local model:
+
+```bash
+.venv\Scripts\python.exe -m llm_probe.cli.main --model phi3:mini
+.venv\Scripts\python.exe -m llm_probe.cli.main --model mistral:7b
+```
+
+Supported local models: `phi3:mini`, `mistral:7b`, `llama3.2`, `gemma2:2b`
+
+Output: HTML reports written to `reports/`.
 
 ## Example output
 
 ```text
-Running 25 payloads against openai/gpt-4o-mini
-Results: 18 flagged / 7 passed
-Report written to reports/report_20250601_143022.html
-PDF written to reports/report_20250601_143022.pdf
+Running 24 payloads against ollama/phi3:mini
+Results: 24/24 payloads passed.
+Report written to reports/report-20260605-051442-phi3-mini.html
 ```
 
 ## Project structure
 
 ```text
 llm_probe/
-  adapters/        API adapters (OpenAI, Anthropic)
+  adapters/        API adapters (OpenAI, Anthropic, Ollama)
   core/            Config, logging, exceptions
   payloads/        YAML catalog + loader
   reporting/       HTML/PDF renderer

@@ -7,11 +7,13 @@ from llm_probe.schemas.payload import Payload
 from llm_probe.schemas.result import Result
 from llm_probe.adapters.anthropic_adapter import AnthropicAdapter
 from llm_probe.adapters.openai_adapter import OpenAIAdapter
+from llm_probe.adapters.ollama_adapter import OllamaAdapter
 from llm_probe.scoring.engine import score
 
 ADAPTER_MAP = {
     "anthropic": AnthropicAdapter,
     "openai": OpenAIAdapter,
+    "ollama": OllamaAdapter,
 }
 
 class Runner:
@@ -19,7 +21,6 @@ class Runner:
     Orchestrates the full probe pipeline:
     load payloads -> send to LLM -> score response -> log to MLflow.
     """
-
     def __init__(self, adapter_name: str, experiment_name: str = "py-prompt-injection"):
         if adapter_name not in ADAPTER_MAP:
             raise ValueError(f"Unknown adapter: {adapter_name}. Choose from {list(ADAPTER_MAP)}")

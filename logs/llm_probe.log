@@ -1,5 +1,0 @@
-2026-06-03 04:16:40 | DEBUG    | llm_probe.core.logging:85 | Logging initialised | level=DEBUG | file=logs\llm_probe.log
-2026-06-03 04:16:40 | INFO     | __main__:1 | logging ok
-2026-06-03 04:18:59 | DEBUG    | llm_probe.core.logging:85 | Logging initialised | level=INFO | file=logs\llm_probe.log
-2026-06-03 04:18:59 | INFO     | __main__:1 | provider=anthropic model=claude-3-5-sonnet-20241022
-2026-06-03 04:18:59 | WARNING  | __main__:1 | test warning
