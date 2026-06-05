@@ -134,7 +134,7 @@ This project is Phase 1 of a three-phase LLM security portfolio.
 | Phase | Repository | OWASP Coverage | Status |
 |---|---|---|---|
 | Phase 1 | [py-prompt-injection](https://github.com/DodiBadshah/py-prompt-injection) | LLM01, LLM02, LLM06, LLM08 | Complete |
-| Phase 2 | py-rag-security | LLM03, LLM09 | In Development |
+| Phase 2 | [py-rag-security](https://github.com/DodiBadshah/py-rag-security) | LLM03, LLM09 | In Development |
 | Phase 3 | py-llm-load | LLM04, LLM10 | Planned |
 
 ### Phase 2 - RAG Security Evaluation Framework
