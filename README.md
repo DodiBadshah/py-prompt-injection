@@ -127,6 +127,40 @@ This project handles LLM API keys and executes prompt injection payloads against
 - YAML loading uses `safe_load` throughout, preventing arbitrary code execution
 - `.env` verified absent from all git history
 
+## Roadmap
+
+This project is Phase 1 of a three-phase LLM security portfolio.
+
+| Phase | Repository | OWASP Coverage | Status |
+|---|---|---|---|
+| Phase 1 | [py-prompt-injection](https://github.com/DodiBadshah/py-prompt-injection) | LLM01, LLM02, LLM06, LLM08 | Complete |
+| Phase 2 | py-rag-security | LLM03, LLM09 | In Development |
+| Phase 3 | py-llm-load | LLM04, LLM10 | Planned |
+
+### Phase 2 - RAG Security Evaluation Framework
+Target repository: `github.com/DodiBadshah/py-rag-security`
+
+Extends this harness with a ChromaDB vector store and retrieval pipeline to test
+LLM vulnerabilities that require document context:
+
+- **LLM03 - Training Data Poisoning:** Injects manipulated documents into the
+  retrieval store and measures whether the model surfaces poisoned content
+- **LLM09 - Misinformation:** Tests whether grounded RAG responses can be
+  manipulated to produce false but confident-sounding output
+
+The adapter layer, scoring engine, and reporting pipeline from Phase 1 are
+reused directly. New additions are the vector store, embedder, poisoner, and
+LLM-as-judge scorer.
+
+### Phase 3 - Load and Resource Testing
+Target repository: `github.com/DodiBadshah/py-llm-load`
+
+Adds load testing infrastructure to cover the two remaining OWASP categories
+that require concurrency and resource monitoring:
+
+- **LLM04 - Model Denial of Service**
+- **LLM10 - Unbounded Consumption**
+
 ## License
 
 MIT
