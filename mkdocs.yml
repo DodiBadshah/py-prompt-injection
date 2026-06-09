@@ -26,6 +26,7 @@ nav:
   - CLI Reference: cli.md
   - Contributing: contributing.md
   - Roadmap: roadmap.md
+  - Phase 1 Findings: phase1-findings.html
 
 markdown_extensions:
   - pymdownx.highlight:
