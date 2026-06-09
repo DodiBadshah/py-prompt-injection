@@ -27,7 +27,7 @@ class OpenAIAdapter(BaseAdapter):
         try:
             response = self._client.chat.completions.create(
                 model=self.model,
-                messages=[{"role": "user", "content": payload.text}],
+                messages=[{"role": "user", "content": payload.prompt_text}],
                 max_tokens=512,
             )
             elapsed_ms = round((time.monotonic() - start) * 1000)

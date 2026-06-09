@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 
 
 class OllamaAdapter(BaseAdapter):
-    def __init__(self, model: str = "phi3:mini", base_url: str = "http://172.31.192.1:11434"):
+    def __init__(self, model: str = "phi3:mini", base_url: str = "http://localhost:11434"):
         self.model = model
         self.base_url = base_url
 
@@ -16,17 +16,17 @@ class OllamaAdapter(BaseAdapter):
 
         try:
             response = httpx.post(
-                f"{self.base_url}/api/chat",
+                f"{self.base_url}/api/generate",
                 json={
                     "model": self.model,
-                    "messages": [{"role": "user", "content": prompt}],
+                    "prompt": prompt,
                     "stream": False,
                 },
-                timeout=120.0,
+                timeout=180.0,
             )
             response.raise_for_status()
             data = response.json()
-            reply = data["message"]["content"]
+            reply = data["response"]
             error = None
         except Exception as e:
             reply = ""
