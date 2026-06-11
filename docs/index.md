@@ -1,6 +1,6 @@
 # py-prompt-injection
 
-A black-box prompt injection test harness for LLMs, mapped to the OWASP LLM Top 10.
+A black-box prompt injection test harness for LLMs, mapped to the OWASP LLM Top 10 2023-24.
 
 > **Work in Progress:** This project is under active development. Results, scoring methodology, and documentation may change as Phase 1 findings are refined and Phase 2 development progresses.
 
@@ -12,7 +12,7 @@ Think of it as Nessus for LLMs.
 
 ## Key features
 
-- 40+ curated attack payloads across 4 OWASP LLM Top 10 categories
+- 24 curated attack payloads across 4 OWASP LLM Top 10 2023-24 categories
 - Adapter layer supporting OpenAI, Anthropic, and local Ollama models
 - Two-generation heuristic scoring engine with documented improvements between generations
 - Pass/fail verdicts with per-payload scoring
