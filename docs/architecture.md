@@ -15,7 +15,7 @@ Scoring Engine (scoring/)
     |
 Schemas (schemas/)
     |
-Payload Loader (payloads/)
+Payload Loader (llm_probe/payloads/)
     |
 Core (core/)
 ```
@@ -28,7 +28,7 @@ Handles configuration, logging, and custom exceptions. Every other layer imports
 
 ### Payload Loader
 
-Reads YAML files from `payloads/catalog/` and deserializes them into Payload objects. Each YAML file maps to one OWASP category.
+Reads YAML files from `llm_probe/payloads/catalog/` and deserializes them into Payload objects. Each YAML file maps to one OWASP category.
 
 ### Schemas
 

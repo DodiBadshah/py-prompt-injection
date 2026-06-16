@@ -40,7 +40,7 @@ All 40 tests must pass before submitting a pull request.
 
 ## Adding new payloads
 
-1. Open the relevant YAML file in `payloads/catalog/`
+1. Open the relevant YAML file in `llm_probe/payloads/catalog/`
 2. Add a new entry following the existing schema
 3. Run the test suite to confirm the loader picks it up cleanly
 
