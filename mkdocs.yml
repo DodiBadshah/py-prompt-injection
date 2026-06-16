@@ -27,6 +27,7 @@ nav:
   - Contributing: contributing.md
   - Roadmap: roadmap.md
   - Phase 1 Findings: phase1-findings.html
+  - Security Advisory ADV-001: advisory-001.html
 
 markdown_extensions:
   - pymdownx.highlight:
