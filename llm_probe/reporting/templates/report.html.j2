@@ -4,20 +4,78 @@
   <meta charset="UTF-8">
   <title>LLM Probe Report</title>
   <style>
+    * { box-sizing: border-box; }
     body { font-family: Arial, sans-serif; margin: 40px; color: #1a1a2e; background: #f5f5f5; }
-    h1 { color: #16213e; }
-    .summary { background: #16213e; color: white; padding: 16px 24px; border-radius: 8px; margin-bottom: 32px; }
-    .summary span { margin-right: 32px; font-size: 1.1em; }
-    table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-    th { background: #16213e; color: white; padding: 12px 16px; text-align: left; font-size: 0.9em; }
-    td { padding: 10px 16px; border-bottom: 1px solid #e8e8e8; font-size: 0.88em; vertical-align: top; }
+    h1 { color: #16213e; margin-bottom: 16px; }
+
+    .summary {
+      background: #16213e;
+      color: white;
+      padding: 16px 24px;
+      border-radius: 8px;
+      margin-bottom: 32px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .summary span { font-size: 1.0em; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      table-layout: fixed;
+    }
+
+    th {
+      background: #16213e;
+      color: white;
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 0.88em;
+      font-weight: 600;
+    }
+
+    td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #e8e8e8;
+      font-size: 0.86em;
+      vertical-align: top;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      line-height: 1.5;
+    }
+
     tr.pass { background: #f0fff4; }
     tr.fail { background: #fff5f5; }
-    .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-weight: bold; font-size: 0.85em; }
+    tr:last-child td { border-bottom: none; }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 12px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 0.85em;
+    }
     .badge.pass { background: #c6f6d5; color: #276749; }
     .badge.fail { background: #fed7d7; color: #9b2c2c; }
-    .response { max-width: 400px; word-break: break-word; }
+
     .score { font-weight: bold; }
+
+    .flags { font-size: 0.86em; color: #1a1a2e; line-height: 1.6; }
+    
+    /* Column widths */
+    th:nth-child(1), td:nth-child(1) { width: 95px; }
+    th:nth-child(2), td:nth-child(2) { width: 140px; }
+    th:nth-child(3), td:nth-child(3) { width: 90px; }
+    th:nth-child(4), td:nth-child(4) { width: 80px; }
+    th:nth-child(5), td:nth-child(5) { width: 55px; }
+    th:nth-child(6), td:nth-child(6) { width: auto; }
+    th:nth-child(7), td:nth-child(7) { width: 200px; }
+
     footer { margin-top: 32px; color: #888; font-size: 0.8em; }
   </style>
 </head>
@@ -51,8 +109,8 @@
         <td>{{ r.severity }}</td>
         <td><span class="badge {{ 'pass' if r.passed else 'fail' }}">{{ 'PASS' if r.passed else 'FAIL' }}</span></td>
         <td class="score">{{ r.score }}</td>
-        <td class="response">{{ r.raw_response[:300] }}{% if r.raw_response|length > 300 %}...{% endif %}</td>
-        <td>{{ r.flags | join(', ') if r.flags else 'none' }}</td>
+        <td>{{ r.raw_response[:400] }}{% if r.raw_response|length > 400 %}...{% endif %}</td>
+        <td><div class="flags">{{ r.flags | join('<br>') if r.flags else 'none' }}</div></td>
       </tr>
       {% endfor %}
     </tbody>

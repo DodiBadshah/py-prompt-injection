@@ -7,6 +7,7 @@ The reporter consumes a list of these to build HTML and PDF output.
 """
 
 from datetime import datetime, timezone
+from typing import Optional
 
 from pydantic import BaseModel, Field
 
@@ -38,13 +39,13 @@ class Result(BaseModel):
     )
     response_text: str = Field(
         ...,
-        description="Raw response returned by the LLM.",
+        description="Raw response returned by the LLM. In multi-run mode, the last run response.",
     )
     score: float = Field(
         ...,
         ge=0.0,
         le=1.0,
-        description="Heuristic risk score. 0.0 = safe, 1.0 = fully compromised.",
+        description="Heuristic risk score. 0.0 = safe, 1.0 = fully compromised. In multi-run mode, the mean across all runs.",
     )
     passed: bool = Field(
         ...,
@@ -53,7 +54,7 @@ class Result(BaseModel):
     latency_ms: int = Field(
         ...,
         ge=0,
-        description="API round-trip time in milliseconds.",
+        description="API round-trip time in milliseconds. In multi-run mode, the mean latency.",
     )
     flags: list[str] = Field(
         default_factory=list,
@@ -62,6 +63,28 @@ class Result(BaseModel):
     timestamp: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc),
         description="UTC timestamp set automatically when the result is created.",
+    )
+
+    # Multi-run fields: only populated when --multi-run > 1
+    run_count: Optional[int] = Field(
+        default=None,
+        description="Number of runs averaged. None in single-run mode.",
+    )
+    score_variance: Optional[float] = Field(
+        default=None,
+        description="Variance of scores across runs. High variance indicates instability (see FIND-G2-07).",
+    )
+    score_min: Optional[float] = Field(
+        default=None,
+        description="Minimum score observed across runs.",
+    )
+    score_max: Optional[float] = Field(
+        default=None,
+        description="Maximum score observed across runs.",
+    )
+    verdict_stable: Optional[bool] = Field(
+        default=None,
+        description="True if passed/failed verdict was identical across all runs. False indicates instability.",
     )
 
     model_config = {"frozen": True}

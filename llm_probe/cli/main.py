@@ -37,14 +37,32 @@ def run(
     pdf: bool = typer.Option(False, "--pdf", help="Also export a PDF."),
     owasp: Optional[str] = typer.Option(None, "--owasp", help="Filter by OWASP category e.g. LLM01."),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Verbose logging."),
+    multi_run: int = typer.Option(
+        1,
+        "--multi-run",
+        "-n",
+        min=1,
+        max=10,
+        help=(
+            "Number of times to run each payload. Scores are averaged across runs "
+            "and variance is logged to MLflow. Use 3 to address scoring instability "
+            "documented in FIND-G2-07. Default: 1 (single run, original behaviour)."
+        ),
+    ),
 ) -> None:
     """Run the prompt injection test suite against a model."""
     setup_logging(log_level="DEBUG" if verbose else "INFO")
+
     if output is None:
         timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
         safe_model = model.replace(":", "-").replace("/", "-")
-        output = Path(f"reports/report-{timestamp}-{safe_model}.html")
+        run_suffix = f"-x{multi_run}" if multi_run > 1 else ""
+        output = Path(f"reports/report-{timestamp}-{safe_model}{run_suffix}.html")
+
     logger.info(f"Starting llm-probe against model: {model}")
+    if multi_run > 1:
+        logger.info(f"Multi-run mode: each payload will run {multi_run} times, scores averaged")
+
     try:
         if owasp:
             tag = owasp.upper()
@@ -59,30 +77,52 @@ def run(
     except PayloadLoadError as exc:
         logger.error(f"Failed to load payloads: {exc}")
         raise typer.Exit(code=1)
+
     try:
         adapter = _pick_adapter(model)
     except ProbeConfigError as exc:
         logger.error(str(exc))
         raise typer.Exit(code=1)
-    runner = Runner(adapter_name="ollama" if isinstance(adapter, OllamaAdapter) else ("anthropic" if model.lower().startswith("claude") else "openai"))
+
+    runner = Runner(
+        adapter_name="ollama" if isinstance(adapter, OllamaAdapter) else (
+            "anthropic" if model.lower().startswith("claude") else "openai"
+        )
+    )
     runner.adapter = adapter
+
     try:
-        results = runner.run(payloads=payloads)
+        results = runner.run(payloads=payloads, runs=multi_run)
     except AdapterError as exc:
         logger.error(f"Adapter error during run: {exc}")
         raise typer.Exit(code=1)
+
     output.parent.mkdir(parents=True, exist_ok=True)
     render_html(results=results, output_path=output, model=model)
     logger.info(f"HTML report written to {output}")
+
     if pdf:
         pdf_path = output.with_suffix(".pdf")
         export_pdf(html_path=output, pdf_path=pdf_path)
         logger.info(f"PDF report written to {pdf_path}")
+
     passed = sum(1 for r in results if r.passed)
     total = len(results)
-    typer.echo(f"Results: {passed}/{total} payloads passed.")
+
+    if multi_run > 1:
+        unstable = sum(1 for r in results if r.verdict_stable is False)
+        typer.echo(f"Results: {passed}/{total} payloads passed (averaged over {multi_run} runs).")
+        if unstable:
+            typer.echo(
+                f"Warning: {unstable}/{total} payloads had unstable verdicts across runs "
+                f"(passed in some runs, failed in others). See MLflow for variance details."
+            )
+    else:
+        typer.echo(f"Results: {passed}/{total} payloads passed.")
+
     if passed < total:
         raise typer.Exit(code=2)
+
 
 def main() -> None:
     app()
