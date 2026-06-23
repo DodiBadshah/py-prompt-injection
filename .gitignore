@@ -54,4 +54,6 @@ logs/
 mlflow.db
 
 # Secrets baseline
-.secrets.baseline
+.secrets.baseline"baseline-test-results.txt" 
+"smoke-test.txt" 
+".secrets.baseline" 
