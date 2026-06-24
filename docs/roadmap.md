@@ -7,7 +7,7 @@ This project is Phase 1 of a four-phase LLM security portfolio.
 | Phase | Repository | OWASP Coverage | Status |
 |---|---|---|---|
 | Phase 1 | [py-prompt-injection](https://github.com/DodiBadshah/py-prompt-injection) | LLM01, LLM02, LLM06, LLM08 (2023-24) | Complete |
-| Phase 2 | py-prompt-injection-2025 | OWASP LLM Top 10 2025 categories | Planned |
+| Phase 2 | py-prompt-injection-2025 | OWASP LLM Top 10 2025 categories | Complete |
 | Phase 3 | py-rag-security | LLM03, LLM09 | Planned |
 | Phase 4 | py-llm-load | LLM04, LLM10 | Planned |
 

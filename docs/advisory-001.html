@@ -367,9 +367,10 @@ pip install -e .
     <div class="step-label">Step 2: Run the targeted payload</div>
     <p>Fire only the CSV injection payload against a target model using the OWASP category filter.</p>
   </div>
-  <pre><code>python -m py_prompt_injection run \
+
+<pre><code>.venv\Scripts\python.exe -m llm_probe.cli.main \
   --model claude-haiku-4-5 \
-  --category LLM02 \
+  --owasp LLM02 \
   --output report.html</code></pre>
 
   <div class="step-block">

@@ -60,7 +60,7 @@ Run a single OWASP category against a local model:
 |---|---|
 | Anthropic | claude-haiku-4-5, claude-sonnet-4-6 |
 | OpenAI | gpt-4o-mini, gpt-4o |
-| Ollama (local) | phi3:mini, mistral:7b, llama3.2, gemma2:2b |
+| Ollama (local) | phi3:mini, mistral:7b, llama3.1:8b, llama3.2:3b, gemma2:2b, gemma2:9b |
 
 ## Output files
 

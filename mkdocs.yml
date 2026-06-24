@@ -28,6 +28,7 @@ nav:
   - Roadmap: roadmap.md
   - Phase 1 Findings: phase1-findings.html
   - Security Advisory ADV-001: advisory-001.html
+  - Phase 2 (OWASP 2025): https://github.com/DodiBadshah/py-prompt-injection-2025
 
 markdown_extensions:
   - pymdownx.highlight:
