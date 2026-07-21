@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Docs](https://img.shields.io/badge/docs-live-brightgreen)](https://dodibadshah.github.io/py-prompt-injection/)
 
-A black-box prompt injection test harness for LLMs, mapped to the OWASP LLM Top 10.
+A black-box prompt injection test harness for LLMs, mapped to the OWASP LLM Top 10 (2023-24).
 
 Fire structured attack payloads at any OpenAI, Anthropic, or local Ollama model, score responses automatically, and generate HTML and PDF security reports.
 
@@ -27,7 +27,7 @@ payloads/catalog/*.yaml  -->  payloads/loader.py  -->  runner/runner.py
                                                reporting/ (HTML + PDF)  +  MLflow
 ```
 
-## OWASP LLM Top 10 coverage
+## OWASP LLM Top 10 (2023-24) coverage
 
 | ID | Category | Payloads |
 |----|----------|----------|
@@ -135,8 +135,8 @@ This project is Phase 1 of a four-phase LLM security portfolio.
 |---|---|---|---|
 | Phase 1 | [py-prompt-injection](https://github.com/DodiBadshah/py-prompt-injection) | LLM01, LLM02, LLM06, LLM08 (2023-24) | Complete |
 | Phase 2 | [py-prompt-injection-2025](https://github.com/DodiBadshah/py-prompt-injection-2025) | LLM01, LLM02, LLM05, LLM06, LLM07 (2025) | Complete |
-| Phase 3 | py-rag-security | LLM03, LLM09 | Planned |
-| Phase 4 | py-llm-load | LLM04, LLM10 | Planned |
+| Phase 3 | py-rag-security | LLM08, LLM09 (2025) | Planned |
+| Phase 4 | py-llm-load | LLM10 (2025) | Planned |
 
 ### Phase 2 - OWASP 2025 Payload Coverage with LangChain
 Target repository: `github.com/DodiBadshah/py-prompt-injection-2025`
@@ -150,20 +150,23 @@ Target repository: `github.com/DodiBadshah/py-rag-security`
 Production RAG pipeline over compliance document corpora with hybrid retrieval,
 Cohere reranking, LLM-as-judge scoring, and Azure Container Apps deployment.
 
-- **LLM03 - Training Data Poisoning:** Injects manipulated documents into the
-  retrieval store and measures whether the model surfaces poisoned content
+- **LLM08 - Vector and Embedding Weaknesses:** Injects adversarial documents into
+  the retrieval store and measures whether the pipeline retrieves and surfaces
+  the poisoned content
 - **LLM09 - Misinformation:** Tests whether grounded RAG responses can be
   manipulated to produce false but confident-sounding output
 
 ### Phase 4 - Load and Resource Testing
 Target repository: `github.com/DodiBadshah/py-llm-load`
 
-Adds load testing infrastructure to cover the two remaining OWASP categories
-that require concurrency and resource monitoring. Completes full OWASP LLM Top 10
-coverage across the suite.
+Adds load testing infrastructure covering resource-exhaustion attacks: concurrent
+request flooding, token consumption, and cost amplification. Brings suite coverage
+to eight of the ten OWASP LLM Top 10 2025 categories, with LLM03 (Supply Chain) and
+LLM04 (Data and Model Poisoning) documented as out of scope for a black-box and
+RAG-runtime harness.
 
-- **LLM04 - Model Denial of Service**
-- **LLM10 - Unbounded Consumption**
+- **LLM10 - Unbounded Consumption:** Concurrent load, token flooding, and
+  denial-of-wallet cost attacks against models and the Phase 3 RAG endpoint
 
 ## License
 
