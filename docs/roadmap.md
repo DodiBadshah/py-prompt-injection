@@ -7,9 +7,9 @@ This project is Phase 1 of a four-phase LLM security portfolio.
 | Phase | Repository | OWASP Coverage | Status |
 |---|---|---|---|
 | Phase 1 | [py-prompt-injection](https://github.com/DodiBadshah/py-prompt-injection) | LLM01, LLM02, LLM06, LLM08 (2023-24) | Complete |
-| Phase 2 | [py-prompt-injection-2025](https://github.com/DodiBadshah/py-prompt-injection-2025) | OWASP LLM Top 10 2025 categories | Complete |
-| Phase 3 | py-rag-security | LLM03, LLM09 | Planned |
-| Phase 4 | py-llm-load | LLM04, LLM10 | Planned |
+| Phase 2 | [py-prompt-injection-2025](https://github.com/DodiBadshah/py-prompt-injection-2025) | LLM01, LLM02, LLM05, LLM06, LLM07 (2025) | Complete |
+| Phase 3 | py-rag-security | LLM08, LLM09 (2025) | Planned |
+| Phase 4 | py-llm-load | LLM10 (2025) | Planned |
 
 ## Phase 1 - Prompt Injection Harness (this project)
 
@@ -30,8 +30,8 @@ firing against any OpenAI, Anthropic, or local Ollama model:
 Target repository: `github.com/DodiBadshah/py-prompt-injection-2025`
 
 Same black-box harness architecture as Phase 1, extended to cover OWASP LLM Top 10
-2025 categories including prompt lockout, agentic misuse vectors, and vector and
-embedding weaknesses. Primary purpose is LangChain orchestration replacing raw API calls.
+2025 categories including system prompt leakage, improper output handling, and
+updated excessive agency. Primary purpose is LangChain orchestration replacing raw API calls.
 
 **New in Phase 2:**
 
@@ -53,10 +53,11 @@ Target repository: `github.com/DodiBadshah/py-rag-security`
 A production RAG pipeline built over compliance and security document corpora
 (HIPAA, NIST SP 800-53, CIS Controls v8). Tests for RAG-specific security
 vulnerabilities including poisoned document injection and manipulated retrieval
-context, covering OWASP LLM03 and LLM09. Full stack deployment to Azure Container Apps.
+context, covering OWASP LLM08 and LLM09. Full stack deployment to Azure Container Apps.
 
-- **LLM03 - Training Data Poisoning:** Injects manipulated documents into the
-  retrieval store and measures whether the model surfaces poisoned content
+- **LLM08 - Vector and Embedding Weaknesses:** Injects adversarial documents into
+  the retrieval store and measures whether the pipeline retrieves and surfaces the
+  poisoned content
 - **LLM09 - Misinformation:** Tests whether grounded RAG responses can be
   manipulated to produce false but confident-sounding output
 
@@ -71,12 +72,14 @@ context, covering OWASP LLM03 and LLM09. Full stack deployment to Azure Containe
 
 Target repository: `github.com/DodiBadshah/py-llm-load`
 
-Adds load testing infrastructure to cover the two remaining OWASP categories
-that require concurrency and resource monitoring. Completes full OWASP LLM Top 10
-coverage across the suite.
+Adds load testing infrastructure covering resource-exhaustion attacks: concurrent
+request flooding, token consumption, and cost amplification. Brings suite coverage
+to eight of the ten OWASP LLM Top 10 2025 categories, with LLM03 (Supply Chain) and
+LLM04 (Data and Model Poisoning) documented as out of scope for a black-box and
+RAG-runtime harness.
 
-- **LLM04 - Model Denial of Service**
-- **LLM10 - Unbounded Consumption**
+- **LLM10 - Unbounded Consumption:** Concurrent load, token flooding, and
+  denial-of-wallet cost attacks against models and the Phase 3 RAG endpoint
 
 **New in Phase 4:**
 
