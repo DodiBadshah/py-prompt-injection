@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://dodibadshah.github.io/py-prompt-injection/</loc>
+         <lastmod>2026-07-22</lastmod>
+    </url>
+    <url>
+         <loc>https://dodibadshah.github.io/py-prompt-injection/architecture/</loc>
+         <lastmod>2026-07-22</lastmod>
+    </url>
+    <url>
+         <loc>https://dodibadshah.github.io/py-prompt-injection/cli/</loc>
+         <lastmod>2026-07-22</lastmod>
+    </url>
+    <url>
+         <loc>https://dodibadshah.github.io/py-prompt-injection/contributing/</loc>
+         <lastmod>2026-07-22</lastmod>
+    </url>
+    <url>
+         <loc>https://dodibadshah.github.io/py-prompt-injection/owasp/</loc>
+         <lastmod>2026-07-22</lastmod>
+    </url>
+    <url>
+         <loc>https://dodibadshah.github.io/py-prompt-injection/payloads/</loc>
+         <lastmod>2026-07-22</lastmod>
+    </url>
+    <url>
+         <loc>https://dodibadshah.github.io/py-prompt-injection/roadmap/</loc>
+         <lastmod>2026-07-22</lastmod>
+    </url>
+</urlset>
