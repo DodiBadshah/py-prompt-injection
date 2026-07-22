@@ -2,7 +2,7 @@
 
 A black-box prompt injection test harness for LLMs, mapped to the OWASP LLM Top 10 2023-24.
 
-> **Status:** Phase 1 and Phase 2 complete. Phase 1 findings and responsible disclosure advisory published. Phase 3 (py-rag-security) in development.
+> **Status:** Phase 1 and Phase 2 complete. Phase 1 findings and responsible disclosure advisory published. Phase 3 (py-rag-security) planned.
 
 ## What it does
 
