@@ -1143,13 +1143,13 @@
     <h2 class="section-title">Future Work</h2>
 
 <h3>Phase 2: OWASP 2025 payload coverage with LangChain orchestration</h3>
-    <p>Phase 2 (py-prompt-injection-2025) extended the evaluation harness to OWASP LLM Top 10 2025 categories, added LangChain as the orchestration layer replacing raw API calls, and introduced coverage for prompt lockout, agentic misuse vectors, and vector and embedding weaknesses. This phase is complete.</p>
+    <p>Phase 2 (py-prompt-injection-2025) extended the evaluation harness to OWASP LLM Top 10 2025 categories, added LangChain as the orchestration layer replacing raw API calls, and introduced coverage for system prompt leakage, improper output handling, and updated excessive agency. This phase is complete.</p>
 
     <h3>Phase 3: RAG security evaluation with LLM-as-judge scoring</h3>
-    <p>The next extension is py-rag-security, which adds a Pinecone vector store and hybrid retrieval pipeline to evaluate LLM03 and LLM09. Phase 3 introduces LLM-as-judge scoring as a third generation alongside Generation 1 and Generation 2 heuristics, enabling the three-way comparison described in Section 5.4. MLflow tracking spans all phases for cross-phase comparison.</p>
+    <p>The next extension is py-rag-security, which adds a Pinecone vector store and hybrid retrieval pipeline to evaluate LLM08:2025 (Vector and Embedding Weaknesses) and LLM09:2025 (Misinformation). Phase 3 introduces LLM-as-judge scoring as a third generation alongside Generation 1 and Generation 2 heuristics, enabling the three-way comparison described in Section 5.4. MLflow tracking spans all phases for cross-phase comparison.</p>
 
     <h3>Phase 4: Load and resource security</h3>
-    <p>Phase 4 (py-llm-load) will cover LLM04 (Model Denial of Service) and LLM10 (Unbounded Consumption) using an asyncio-based concurrent request engine and a token consumption monitoring layer, completing full OWASP LLM Top 10 coverage across the suite.</p>
+    <p>Phase 4 (py-llm-load) will cover LLM10:2025 (Unbounded Consumption) using an asyncio-based concurrent request engine and a token consumption monitoring layer, bringing suite coverage to eight of the ten OWASP LLM Top 10 2025 categories. LLM03 (Supply Chain) and LLM04 (Data and Model Poisoning) are out of scope for a black-box and RAG-runtime harness.</p>
 
     <h3>Scoring improvements</h3>
     <p>Generation 2 resolved the three documented Generation 1 problems. Remaining near-term improvements: semantic scoring for LLM02:2023-24 and LLM06:2023-24 categories where the question is not whether the model refused but whether the output is safe to render downstream; and a structured YAML-based expected-output specification for each payload enabling differential testing across model versions.</p>
