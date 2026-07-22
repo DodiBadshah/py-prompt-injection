@@ -4,6 +4,8 @@ py-prompt-injection covers four categories from the OWASP LLM Top 10 (2023-24).
 
 ## Coverage summary
 
+> Category names below follow the OWASP LLM Top 10 2023-24 taxonomy, which this project targets. The 2025 revision renumbers and renames several categories (for example, LLM09 becomes Misinformation and LLM03 becomes Supply Chain); later phases in the [roadmap](roadmap.md) use the 2025 names.
+
 | OWASP ID | Name | Payloads | Status |
 |---|---|---|---|
 | LLM01 | Prompt Injection | 6 | Covered |
